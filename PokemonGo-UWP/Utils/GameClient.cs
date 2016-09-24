@@ -374,7 +374,7 @@ namespace PokemonGo_UWP.Utils
                 GooglePassword = SettingsService.Instance.LastLoginService == AuthType.Google ? credentials.Password : null,
             };
 
-            _client = new Client(_clientSettings, null, DeviceInfos.Current) {AccessToken = LoadAccessToken()};
+            _client = new Client(_clientSettings, null, DeviceInfos.Current) { AccessToken = LoadAccessToken() };
             var apiFailureStrategy = new ApiFailureStrategy(_client);
             _client.ApiFailure = apiFailureStrategy;
             // Register to AccessTokenChanged
@@ -474,8 +474,8 @@ namespace PokemonGo_UWP.Utils
             if (!SettingsService.Instance.RememberLoginData)
                 SettingsService.Instance.UserCredentials = null;
             _heartbeat?.StopDispatcher();
-			LocationServiceHelper.Instance.PropertyChanged -= LocationHelperPropertyChanged;
-			_lastGeopositionMapObjectsRequest = null;
+            LocationServiceHelper.Instance.PropertyChanged -= LocationHelperPropertyChanged;
+            _lastGeopositionMapObjectsRequest = null;
         }
 
         #endregion
@@ -528,12 +528,12 @@ namespace PokemonGo_UWP.Utils
             };
             //Trick to trigger the PropertyChanged for MapAutomaticOrientationMode ;)
             SettingsService.Instance.MapAutomaticOrientationMode = SettingsService.Instance.MapAutomaticOrientationMode;
-			#endregion
-      Busy.SetBusy(true, Resources.CodeResources.GetString("GettingGpsSignalText"));
-			await LocationServiceHelper.Instance.InitializeAsync();
-			LocationServiceHelper.Instance.PropertyChanged += LocationHelperPropertyChanged;
-			// Before starting we need game settings
-			GameSetting =
+            #endregion
+            Busy.SetBusy(true, Resources.CodeResources.GetString("GettingGpsSignalText"));
+            await LocationServiceHelper.Instance.InitializeAsync();
+            LocationServiceHelper.Instance.PropertyChanged += LocationHelperPropertyChanged;
+            // Before starting we need game settings
+            GameSetting =
                 await
                     DataCache.GetAsync(nameof(GameSetting), async () => (await _client.Download.GetSettings()).Settings,
                         DateTime.Now.AddMonths(1));
@@ -547,20 +547,20 @@ namespace PokemonGo_UWP.Utils
             //await UpdateMapObjects();
             await UpdateInventory();
             await UpdateItemTemplates();
-            if(PlayerProfile != null && PlayerStats != null)
+            if (PlayerProfile != null && PlayerStats != null)
                 Busy.SetBusy(false);
         }
 
-		private static async void LocationHelperPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if(e.PropertyName==nameof(LocationServiceHelper.Instance.Geoposition))
-			{
-				// Updating player's position
-				var position = LocationServiceHelper.Instance.Geoposition.Coordinate.Point.Position;
-				if (_client != null)
-					await _client.Player.UpdatePlayerLocation(position.Latitude, position.Longitude, LocationServiceHelper.Instance.Geoposition.Coordinate.Accuracy);
-			}
-		}
+        private static async void LocationHelperPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(LocationServiceHelper.Instance.Geoposition))
+            {
+                // Updating player's position
+                var position = LocationServiceHelper.Instance.Geoposition.Coordinate.Point.Position;
+                if (_client != null)
+                    await _client.Player.UpdatePlayerLocation(position.Latitude, position.Longitude, LocationServiceHelper.Instance.Geoposition.Coordinate.Accuracy);
+            }
+        }
 
         /// <summary>
         ///     DateTime for the last map update
@@ -643,7 +643,7 @@ namespace PokemonGo_UWP.Utils
                     var currentPokemon = PokemonsInventory
                         .FirstOrDefault(item => item.Id == hatchedEggResponse.PokemonId[i]);
 
-                    if(currentPokemon == null)
+                    if (currentPokemon == null)
                         continue;
 
                     await
