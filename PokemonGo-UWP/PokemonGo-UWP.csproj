@@ -749,6 +749,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ArcProgressBar.cs" />
+    <Compile Include="Controls\MessageDialog\PoGoTeamSelectDialog.xaml.cs">
+      <DependentUpon>PoGoTeamSelectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MessageDialog\PoGoMessageDialog.xaml.cs">
       <DependentUpon>PoGoMessageDialog.xaml</DependentUpon>
     </Compile>
@@ -768,6 +771,7 @@
       <DependentUpon>PoGoPivotHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entities\FortDataWrapper.cs" />
+    <Compile Include="Entities\GymMembershipWrapper.cs" />
     <Compile Include="Entities\IMapPokemon.cs" />
     <Compile Include="Entities\AppliedItemWrapper.cs" />
     <Compile Include="Entities\IncensePokemon.cs" />
@@ -943,6 +947,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\MessageDialog\PoGoTeamSelectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\MessageDialog\PoGoMessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

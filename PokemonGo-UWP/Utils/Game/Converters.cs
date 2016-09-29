@@ -28,6 +28,7 @@ using Windows.Graphics.Display;
 using Windows.Foundation;
 using Windows.Services.Maps;
 using System.Threading.Tasks;
+using PokemonGo_UWP.ViewModels;
 
 namespace PokemonGo_UWP.Utils
 {
@@ -790,9 +791,26 @@ namespace PokemonGo_UWP.Utils
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var teamColor = (TeamColor)value;
-            return new SolidColorBrush(teamColor == TeamColor.Neutral
-                ? Color.FromArgb(255, 26, 237, 213)
-                : teamColor == TeamColor.Blue ? Color.FromArgb(255, 40, 89, 237) : teamColor == TeamColor.Red ? Color.FromArgb(255, 237, 90, 90) : Color.FromArgb(255, 254, 196, 50));
+            Color color;
+            switch (teamColor)
+            {
+                case TeamColor.Neutral:
+                    color = Color.FromArgb(255, 26, 237, 213);
+                    break;
+                case TeamColor.Blue:
+                    color = Color.FromArgb(255, 40, 89, 237);
+                    break;
+                case TeamColor.Red:
+                    color = Color.FromArgb(255, 237, 90, 90);
+                    break;
+                case TeamColor.Yellow:
+                    color = Color.FromArgb(255, 254, 196, 50);
+                    break;
+                default:
+                    color = Color.FromArgb(255, 0, 0, 0);
+                    break;
+            }
+            return new SolidColorBrush(color);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -1949,7 +1967,7 @@ namespace PokemonGo_UWP.Utils
             var res = ((size.Width - externalMargin) / minColumns) - internalMargin;
 
             //https://msdn.microsoft.com/en-us/windows/uwp/layout/design-and-ui-intro#effective-pixels-and-scaling
-            var width = ((int)res / 4) * 4; //round to 4 - win 10 optimized 
+            var width = ((int)res / 4) * 4; //round to 4 - win 10 optimized
             return width;
         }
 
@@ -2035,16 +2053,16 @@ namespace PokemonGo_UWP.Utils
     {
         #region Implementation of IValueConverter
 
-        private object GetVisibility(object value, bool invert)
+        private object GetVisibility(object value)
         {
             if (!(value is bool))
                 return Visibility.Collapsed;
             bool objValue = (bool)value;
-            if (objValue ^ invert)
+            if (!objValue)
             {
-                return Visibility.Visible;
+                return Visibility.Collapsed;
             }
-            return Visibility.Collapsed;
+            return Visibility.Visible;
         }
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -2052,6 +2070,80 @@ namespace PokemonGo_UWP.Utils
             Boolean.TryParse((string)parameter, out invert);
 
             return GetVisibility(value, invert);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+
+    public class NegateBooleanToVisibilityConverter : IValueConverter
+    {
+        #region Implementation of IValueConverter
+
+        private object GetVisibility(object value)
+        {
+            if (!(value is bool))
+                return Visibility.Visible;
+            bool objValue = (bool)value;
+            if (objValue)
+            {
+                return Visibility.Collapsed;
+            }
+            return Visibility.Visible;
+        }
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return GetVisibility(value);
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public class AttackTypeTrainToVisibilityConverter : IValueConverter
+    {
+        #region Implementation of IValueConverter
+
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (!(value is AttackType))
+                return Visibility.Collapsed;
+
+            AttackType objValue = (AttackType)value;
+            if (objValue == AttackType.Train)
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
+    public class AttackTypeAttackToVisibilityConverter : IValueConverter
+    {
+        #region Implementation of IValueConverter
+
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (!(value is AttackType))
+                return Visibility.Collapsed;
+
+            AttackType objValue = (AttackType)value;
+            if (objValue == AttackType.Attack)
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
         }
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
