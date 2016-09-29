@@ -80,7 +80,8 @@ namespace PokemonGo_UWP.Utils
                 }
                 else if(IsVersionGreater(repoVersion, minVersion))
                 {
-                    return new UpdateInfo(UpdateStatus.NextVersionNotReady);
+                    //return new UpdateInfo(UpdateStatus.NextVersionNotReady);
+                    return new UpdateInfo(UpdateStatus.NoUpdate);
                 }
 
                 return new UpdateInfo(UpdateStatus.NoUpdate);
