@@ -2069,7 +2069,8 @@ namespace PokemonGo_UWP.Utils
             bool invert = false;
             Boolean.TryParse((string)parameter, out invert);
 
-            return GetVisibility(value, invert);
+            //return GetVisibility(value, invert);
+            return GetVisibility(value);
         }
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
